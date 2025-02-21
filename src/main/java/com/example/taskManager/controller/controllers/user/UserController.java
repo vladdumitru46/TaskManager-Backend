@@ -3,6 +3,7 @@ package com.example.taskManager.controller.controllers.user;
 import com.example.taskManager.bussines.user.UserService;
 import com.example.taskManager.controller.request.LoginRequest;
 import com.example.taskManager.controller.request.RegisterRequest;
+import com.example.taskManager.models.user.Role;
 import com.example.taskManager.models.user.User;
 import com.example.taskManager.validator.exceptions.UserEmailAlreadyExistsException;
 import com.example.taskManager.validator.exceptions.UserNotFoundException;
@@ -34,7 +35,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
         try {
-            userService.register(new User(registerRequest.username(), registerRequest.name(), registerRequest.email(), registerRequest.password()));
+            userService.register(new User(registerRequest.username(), registerRequest.name(), registerRequest.email(), registerRequest.password(), Role.USER));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (UserValidationException | UserUsernameAlreadyExistsException | UserEmailAlreadyExistsException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

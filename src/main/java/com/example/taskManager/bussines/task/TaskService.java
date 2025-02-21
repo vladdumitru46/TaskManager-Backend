@@ -49,4 +49,14 @@ public class TaskService {
     public void assignTask(Task task) {
         task.setUser(task.getUser());
     }
+
+    @Transactional
+    public void update(Task task) {
+        task.setUser(task.getUser());
+        task.setName(task.getName());
+        task.setDescription(task.getDescription());
+        task.setTaskStatus(task.getTaskStatus());
+        task.setNumberOfHoursSpent(task.getNumberOfHoursSpent());
+        task.setNumberOfHoursRemaining(task.getNumberOfHoursToComplete() - task.getNumberOfHoursSpent());
+    }
 }

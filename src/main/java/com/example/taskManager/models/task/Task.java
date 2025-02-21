@@ -94,4 +94,12 @@ public class Task {
         this.project = project;
         this.numberOfHoursToComplete = numberOfHoursToComplete;
     }
+
+    public Task(String name, String description, User user, Integer numberOfHoursSpent, TaskStatus taskStatus) {
+        this.name = name;
+        this.description = description;
+        this.user = user;
+        this.numberOfHoursSpent = numberOfHoursSpent;
+        this.taskStatus = taskStatus;
+    }
 }

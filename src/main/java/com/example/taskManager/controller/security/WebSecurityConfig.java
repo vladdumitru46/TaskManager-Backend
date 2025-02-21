@@ -20,9 +20,9 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v1/**").permitAll()
-//                        .requestMatchers("/actuator/refresh").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                                .requestMatchers("/v1/**").permitAll()
+//                        .requestMatchers("/v1/task/**").permitAll()
+                                .anyRequest().authenticated()
                 );
 
         return http.build();
