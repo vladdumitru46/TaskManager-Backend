@@ -22,4 +22,8 @@ public class UserSessionService {
         return userSessionRepository.findByToken(token)
                 .orElseThrow(() -> new UserSessionNotFoundException("There is no user session"));
     }
+
+    public void delete(UserSession user) {
+        userSessionRepository.delete(user);
+    }
 }

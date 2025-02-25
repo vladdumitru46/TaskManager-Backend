@@ -47,9 +47,11 @@ public class TaskController {
     public ResponseEntity<?> add(@RequestBody AddTaskRequest addTaskRequest) {
         try {
             Project project = projectService.getByName(addTaskRequest.projectName());
-            taskService.add(new Task(addTaskRequest.name(), addTaskRequest.description(), project, addTaskRequest.numberOfHoursToComplete()));
+            User user = userService.getByUsername(addTaskRequest.username());
+            Long id = taskService.add(new Task(addTaskRequest.name(), addTaskRequest.description(), project, user, addTaskRequest.numberOfHoursToComplete()));
+            taskService.assignUniqueName(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (ProjectDoesNotExistException e) {
+        } catch (ProjectDoesNotExistException | UserNotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

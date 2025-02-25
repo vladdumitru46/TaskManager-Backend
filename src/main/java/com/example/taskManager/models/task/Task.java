@@ -88,10 +88,11 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
 
-    public Task(String name, String description, Project project, Integer numberOfHoursToComplete) {
+    public Task(String name, String description, Project project, User user, Integer numberOfHoursToComplete) {
         this.name = name;
         this.description = description;
         this.project = project;
+        this.user = user;
         this.numberOfHoursToComplete = numberOfHoursToComplete;
     }
 

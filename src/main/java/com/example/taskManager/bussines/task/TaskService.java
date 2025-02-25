@@ -1,8 +1,11 @@
 package com.example.taskManager.bussines.task;
 
+import com.example.taskManager.controller.response.LoggedTimeOnTaskPerDay;
 import com.example.taskManager.data.task.TaskRepository;
 import com.example.taskManager.models.project.Project;
 import com.example.taskManager.models.task.Task;
+import com.example.taskManager.models.task.TaskStatus;
+import com.example.taskManager.models.task.logTime.LogTimeOnTask;
 import com.example.taskManager.models.user.User;
 import com.example.taskManager.validator.exceptions.NoTaskAssignedException;
 import com.example.taskManager.validator.exceptions.TaskDoesNotExistException;
@@ -10,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("taskService")
@@ -23,11 +27,23 @@ public class TaskService {
                 .orElseThrow(() -> new TaskDoesNotExistException("There is no task assigned to this project"));
     }
 
-    public void add(Task task) {
+    public Long add(Task task) {
         task.setNumberOfHoursRemaining(task.getNumberOfHoursToComplete());
         task.setNumberOfHoursSpent(0);
-        task.setUniqueName("TMA-" + task.getId());//TODO fix this! PROBLEM: the id is not yet generated
+        task.setTaskStatus(TaskStatus.OPEN);
+        task.setUniqueName("");
         taskRepository.save(task);
+        return task.getId();
+    }
+
+    @Transactional
+    public void assignUniqueName(Long taskId) {
+        try {
+            Task task = getById(taskId);
+            task.setUniqueName("TMA-" + task.getId());
+        } catch (TaskDoesNotExistException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Task getById(Long id) throws TaskDoesNotExistException {
