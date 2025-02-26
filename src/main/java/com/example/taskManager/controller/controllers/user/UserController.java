@@ -53,6 +53,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getByToken")
+    public ResponseEntity<?> getByToken(@RequestParam String token) {
+        try {
+            UserSession user = userSessionService.getByToken(token);
+            return new ResponseEntity<>(user.getUser(), HttpStatus.OK);
+        } catch (UserSessionNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping("/all")
     public ResponseEntity<?> getAll() {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);

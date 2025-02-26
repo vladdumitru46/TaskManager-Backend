@@ -42,7 +42,7 @@ public class LogTimeOnTaskController {
         }
     }
 
-    @GetMapping("/userInPeriodOfTime")
+    @PostMapping("/userInPeriodOfTime")
     public ResponseEntity<?> getALlForUserInPeriodOfTime(@RequestBody GetAllLoggedTimeForUserInPeriodOfTime getAllLoggedTimeForUserInPeriodOfTime) {
         try {
             User user = userService.getByUsername(getAllLoggedTimeForUserInPeriodOfTime.username());
