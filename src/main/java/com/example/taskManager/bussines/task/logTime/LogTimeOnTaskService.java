@@ -1,5 +1,6 @@
 package com.example.taskManager.bussines.task.logTime;
 
+import com.example.taskManager.controller.response.LoggedTimeOnTaskPerDay;
 import com.example.taskManager.controller.response.TotalLoggedTimeOnTaskPerDay;
 import com.example.taskManager.data.task.logTime.LogTimeOnTaskRepository;
 import com.example.taskManager.models.task.Task;
@@ -76,5 +77,10 @@ public class LogTimeOnTaskService {
                 .mapToInt(LogTimeOnTask::getLogTime)
                 .sum();
 
+    }
+
+    public LogTimeOnTask getByTaskAndDate(Task task, LocalDate date) throws NoLogsOnTaskException {
+        return logTimeOnTaskRepository.getAllByTaskAndLogDate(task, date)
+                .orElseThrow(() -> new NoLogsOnTaskException(("There is no log on that task and day")));
     }
 }

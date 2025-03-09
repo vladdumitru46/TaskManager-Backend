@@ -21,5 +21,6 @@ public interface LogTimeOnTaskRepository extends JpaRepository<LogTimeOnTask, Lo
     @Query("SELECT logTime FROM LogTimeOnTask logTime WHERE logTime.user = :user AND logTime.logDate BETWEEN :startTime AND :endTime")
     Optional<List<LogTimeOnTask>> getAllByUserAndLogDate(User user, LocalDate startTime, LocalDate endTime);
 
+    Optional<LogTimeOnTask> getAllByTaskAndLogDate(Task task, LocalDate date);
 
 }

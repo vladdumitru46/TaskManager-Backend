@@ -6,6 +6,7 @@ import com.example.taskManager.bussines.user.UserService;
 import com.example.taskManager.bussines.user.UserSessionService;
 import com.example.taskManager.controller.request.AddLogForTaskRequest;
 import com.example.taskManager.controller.request.GetAllLoggedTimeForUserInPeriodOfTime;
+import com.example.taskManager.controller.request.GetByTaskAndDateRequest;
 import com.example.taskManager.controller.response.AllLoggedTimeForUserResponse;
 import com.example.taskManager.controller.response.LoggedTimeOnTaskPerDay;
 import com.example.taskManager.controller.response.TotalLoggedTimeOnTaskPerDay;
@@ -86,6 +87,17 @@ public class LogTimeOnTaskController {
             taskService.update(task);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (TaskDoesNotExistException | UserSessionNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/getByTaskAndDate")
+    public ResponseEntity<?> getByTaskAndDate(@RequestBody GetByTaskAndDateRequest getByTaskAndDateRequest) {
+        try {
+            Task task = taskService.getById(getByTaskAndDateRequest.taskId());
+            LogTimeOnTask logTimeOnTask = logTimeOnTaskService.getByTaskAndDate(task, getByTaskAndDateRequest.date());
+            return new ResponseEntity<>(logTimeOnTask, HttpStatus.OK);
+        } catch (TaskDoesNotExistException | NoLogsOnTaskException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
