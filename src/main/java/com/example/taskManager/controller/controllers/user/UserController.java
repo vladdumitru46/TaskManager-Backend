@@ -2,6 +2,7 @@ package com.example.taskManager.controller.controllers.user;
 
 import com.example.taskManager.bussines.user.UserService;
 import com.example.taskManager.bussines.user.UserSessionService;
+import com.example.taskManager.controller.request.DeleteSessionRequest;
 import com.example.taskManager.controller.request.LoginRequest;
 import com.example.taskManager.controller.request.RegisterRequest;
 import com.example.taskManager.models.user.Role;
@@ -43,9 +44,9 @@ public class UserController {
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity<?> logout(@RequestBody String token) {
+    public ResponseEntity<?> logout(@RequestBody DeleteSessionRequest deleteSessionRequest) {
         try {
-            UserSession user = userSessionService.getByToken(token);
+            UserSession user = userSessionService.getByToken(deleteSessionRequest.token());
             userSessionService.delete(user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (UserSessionNotFoundException e) {

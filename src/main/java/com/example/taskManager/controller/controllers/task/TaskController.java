@@ -32,6 +32,13 @@ public class TaskController {
     private final UserSessionService userSessionService;
     private final UserService userService;
 
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllTasks() {
+        List<Task> taskList = taskService.getAll();
+        return new ResponseEntity<>(taskList, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<?> getAllByProject(@RequestParam String projectName) {
         try {

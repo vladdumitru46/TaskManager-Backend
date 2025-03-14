@@ -75,4 +75,8 @@ public class TaskService {
         task.setNumberOfHoursSpent(task.getNumberOfHoursSpent());
         task.setNumberOfHoursRemaining(task.getNumberOfHoursToComplete() - task.getNumberOfHoursSpent());
     }
+
+    public List<Task> getAll() {
+        return taskRepository.findAll();
+    }
 }

@@ -3,8 +3,11 @@ package com.example.taskManager.bussines.user;
 import com.example.taskManager.data.user.UserSessionRepository;
 import com.example.taskManager.models.user.UserSession;
 import com.example.taskManager.validator.exceptions.UserSessionNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -13,8 +16,12 @@ public class UserSessionService {
     private final UserSessionRepository userSessionRepository;
 
     public void add(UserSession userSession) {
-        if (userSessionRepository.findByUser(userSession.getUser()).isEmpty()) {
+        Optional<UserSession> exisingUserSession = userSessionRepository.findByUser(userSession.getUser());
+        if (exisingUserSession.isEmpty()) {
             userSessionRepository.save(userSession);
+        } else {
+            exisingUserSession.get().setToken(userSession.getToken());
+            updateToken(exisingUserSession.get());
         }
     }
 
@@ -25,5 +32,10 @@ public class UserSessionService {
 
     public void delete(UserSession user) {
         userSessionRepository.delete(user);
+    }
+
+    @Transactional
+    public void updateToken(UserSession userSession) {
+        userSession.setToken(userSession.getToken());
     }
 }
